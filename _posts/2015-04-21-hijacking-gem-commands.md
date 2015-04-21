@@ -26,19 +26,17 @@ Registering a new command requires two operations:
 
 1. Subclassing `Gem::Command`
 
-  ```ruby
-  # Subclass the regular class
-  class Gem::Commands::Foo < Gem::Commands::Command
-    def initialize
-      # This will be run any time the `gem` command is executed
-      super
-    end
-    def execute
-      # This will be run only when `gem install` is executed
-      super
-    end
-  end
-  ```
+      # Subclass the regular class
+      class Gem::Commands::Foo < Gem::Commands::Command
+        def initialize
+          # This will be run any time the `gem` command is executed
+          super
+        end
+        def execute
+          # This will be run only when `gem install` is executed
+          super
+        end
+      end
 
 2. Calling `Gem::CommandManager.instance.register_command` with the symbol representing that class
 
@@ -48,24 +46,22 @@ Trying to replace a built-in command isn't as straightforward though. Built-in c
 1. Call `register_command` with the correct symbol (here `:foo`)
 2. Fallback on the private method [`load_and_instantiate`][l_and_i]:
 
-  ```ruby
-    def load_and_instantiate(command_name)          # command_name = :foo
-      command_name = command_name.to_s              # command_name = foo
-      const_name = command_name.capitalize.
-          gsub(/_(.)/) { $1.upcase } << "Command"   # const_name = FooCommand
-      #...
-      begin
-        begin
-          require "rubygems/commands/#{command_name}_command" # Try requiring... and fail
-        rescue LoadError => e
-          load_error = e
+        def load_and_instantiate(command_name)          # command_name = :foo
+          command_name = command_name.to_s              # command_name = foo
+          const_name = command_name.capitalize.
+              gsub(/_(.)/) { $1.upcase } << "Command"   # const_name = FooCommand
+          #...
+          begin
+            begin
+              require "rubygems/commands/#{command_name}_command" # Try requiring... and fail
+            rescue LoadError => e
+              load_error = e
+            end
+            Gem::Commands.const_get(const_name).new # Instantiate a `Gem::Commands::FooCommand` object
+          rescue Exception => e
+            # ...
+          end
         end
-        Gem::Commands.const_get(const_name).new # Instantiate a `Gem::Commands::FooCommand` object
-      rescue Exception => e
-        # ...
-      end
-    end
-  ```
 
 If we redefined the behavior of the `InstallCommand` and were to call `register_command :install` again,
 the `require "rubygems/commands/#{command_name}_command"` call would load the command located within the
@@ -87,43 +83,39 @@ In our case, we called `unregister_command` on `install`. So anything beginning 
 
 Here's the [full program], to put in `lib/rubygems_plugin.rb`:
 
-```ruby
-require 'rubygems/command_manager'
- 
-## Load the initial `Gem::Commands::InstallCommand` class
-Gem::CommandManager.instance[:install]
- 
-# Drop it from the list of builtin commands
-Gem::CommandManager.instance.unregister_command :install
- 
-# Subclass the regular class
-class Gem::Commands::Install2Command < Gem::Commands::InstallCommand
-  def initialize
-    puts "This will be run any time the `gem` command is executed"
-    super
-  end
-  def execute
-    puts "This will be run only when `gem install` is executed"
-    super
-  end
-end
- 
-# Profit!!!1!
-Gem::CommandManager.instance.register_command :install2
-```
+    require 'rubygems/command_manager'
+     
+    ## Load the initial `Gem::Commands::InstallCommand` class
+    Gem::CommandManager.instance[:install]
+     
+    # Drop it from the list of builtin commands
+    Gem::CommandManager.instance.unregister_command :install
+     
+    # Subclass the regular class
+    class Gem::Commands::Install2Command < Gem::Commands::InstallCommand
+      def initialize
+        puts "This will be run any time the `gem` command is executed"
+        super
+      end
+      def execute
+        puts "This will be run only when `gem install` is executed"
+        super
+      end
+    end
+     
+    # Profit!!!1!
+    Gem::CommandManager.instance.register_command :install2
+
 
 Here's the results:
 
-```
-➜ gem install activevalidators
-This will be run any time the `gem` command is executed
-This will be run only when `gem install` is executed
-Successfully installed activevalidators-3.3.0
-Parsing documentation for activevalidators-3.3.0
-Done installing documentation for activevalidators after 0 seconds
-1 gem installed
-```
-
+    ➜ gem install activevalidators
+    This will be run any time the `gem` command is executed
+    This will be run only when `gem install` is executed
+    Successfully installed activevalidators-3.3.0
+    Parsing documentation for activevalidators-3.3.0
+    Done installing documentation for activevalidators after 0 seconds
+    1 gem installed
 
 
 [plugins]: http://guides.rubygems.org/plugins/
