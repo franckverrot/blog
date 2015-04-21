@@ -1,7 +1,7 @@
 ---
 layout: post
 title: "Hijacking gem commands"
-date: 2014-04-21 08:00:00
+date: 2015-04-21 08:00:00
 comments: true
 categories: 
 ---
