@@ -4,8 +4,15 @@ title: About
 permalink: /about/
 ---
 
-This is the base Jekyll theme. You can find out more info about customizing your Jekyll theme, as well as basic Jekyll usage documentation at [jekyllrb.com](http://jekyllrb.com/)
+Hello! My name is Franck Verrot and I am a seasoned software developer.
 
-You can find the source code for the Jekyll new theme at: [github.com/jglovier/jekyll-new](https://github.com/jglovier/jekyll-new)
+I have a Master's Degree in Computer Science from a French Engineering School, [CPE Lyon](http://www.cpe.fr), with a specialization in Software Engineering and Network Engineering.
 
-You can find the source code for Jekyll at [github.com/jekyll/jekyll](https://github.com/jekyll/jekyll)
+Having worked in many contexts (from small 2-people startups to large corposations) and on all the layers that compose modern software architectures (from the DevOps up to the front-end) - I honed my skills in:
+
+* Building new products from the ground-up
+* Maintaining and evolving legacy systems
+* Leading teams of (sometimes distributed) developers
+* Transforming business requirements into actionable roadmap items
+
+You can contact me at `franck at verrot dot fr` or on [LinkedIn](https://www.linkedin.com/in/franckverrot).
