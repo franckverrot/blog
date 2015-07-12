@@ -165,7 +165,7 @@ Not really readable, the implicit (and hidden to the unwary) `N+1` issue of that
 
 Let’s now test the performance of those queries on the same dataset. We’ll gradually increment the number of records to consider to observe the execution time growth.
 
-[graph]
+![Plot and linear regression of the dataset](https://raw.githubusercontent.com/franckverrot/franckverrot.github.io/master/images/postgresql-performance-subquery-vs-join.png "Plot and linear regression of the dataset")
 
 Applying a simple linear regression on the datasets, here are the two formulas that defines our two strategies’ performances:
 * subquery(time) = 3.74724 &times; x + −3.51694
