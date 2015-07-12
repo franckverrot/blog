@@ -228,6 +228,26 @@ But `N+1` doesn’t only mean “sending N+1 statements to the database”, some
 
 `Active Record` has an `#explain` method that can help developers understanding the generate SQL.
 
+As an exercise to the reader, I'd suggest comparing query plans when the number of posts and the number of comments differ. For example, here's the query plan for 50k posts, and only 5k comments:
+
+{% highlight sql %}
+GroupAggregate  (cost=380.61..2636.48 rows=50000 width=32) (actual time=1.985..36.122 rows=50000 loops=1)
+   Group Key: p.id
+   ->  Merge Left Join  (cost=380.61..1886.48 rows=50000 width=32) (actual time=1.964..20.567 rows=54491 loops=1)
+         Merge Cond: (p.id = c.post_id)
+         ->  Index Only Scan using unique_post on posts p  (cost=0.29..1306.29 rows=50000 width=4) (actual time=0.013..10.559 rows=50000 loops=1)
+               Heap Fetches: 0
+         ->  Sort  (cost=380.19..392.69 rows=5000 width=32) (actual time=1.933..2.283 rows=5000 loops=1)
+               Sort Key: c.post_id
+               Sort Method: quicksort  Memory: 583kB
+               ->  Seq Scan on comments c  (cost=0.00..73.00 rows=5000 width=32) (actual time=0.010..0.763 rows=5000 loops=1)
+ Planning time: 0.810 ms
+ Execution time: 38.813 ms
+{% endhighlight %}
+
+As you can see, not only it will use the unique index on the `posts` table, but also use a `GroupAggregate` given the comments are being sorted in memory.
+Also, the planner can decide to build totally different plans based on the statistics it's computed on the database, so please analyze frequently.
+
 
 <a name="github">1</a>: *[A GitHub’s repository is available][1] with the source code so that the results are reproducible. Please feel free to contact me if some of the numbers don’t feel right, I will keep the repository updated**.
 
