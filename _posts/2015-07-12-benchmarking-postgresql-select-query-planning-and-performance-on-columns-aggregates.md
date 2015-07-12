@@ -81,7 +81,7 @@ Execution time: 28.825 ms
 
 The plan for that query is pretty straightforward:
 
-1. The planner first executes a sequential scan (i.e.: reads all the records out of the `posts` table, which is the smallest table) and stores rows with the same `id` in the same bucket. Accessing posts later on, in memory, will be achieved in constant time<sup>[2](#constant-time)</sup>
+1. The planner first executes a sequential scan (i.e.: reads all the records out of the `posts` table, which is the smallest table) and stores rows with the same `id` in the same bucket (each post has a unique id though, so this doesn't seem really meaningful in our case). Accessing posts later on, in memory, will be achieved in constant time<sup>[2](#constant-time)</sup>
 2. Then it will scan all the `comments`, and iteratively merge the two datasets using the pre-computed hash key (`post_id`) and the `Hash Right Join` function. At this point, a dataset of `N * M` records (`N` for the number of posts, `M` for the number of comments) could exist. However, the hash algorithm we’re using don’t require to have the whole dataset in memory and only buffers the aggregated results
 3. Finally, we aggregate this dataset using the `HashAggregate` function.
 
