@@ -64,7 +64,7 @@ Let’s first analyze the `JOIN` strategy:
 
 
 {% highlight sql %}
- explain analyze select p.id, count(c.id) from posts p left outer join comments n on p.id = n.post_id group by 1; — no limit yet
+ explain analyze select p.id, count(c.post_id) from posts p left outer join comments c on p.id = c.post_id group by 1; — no limit yet
 UERY PLAN
 —————————
 HashAggregate  (cost=1768.05..1773.05 rows=500 width=4) (actual time=28.696..28.749 rows=500 loops=1)
