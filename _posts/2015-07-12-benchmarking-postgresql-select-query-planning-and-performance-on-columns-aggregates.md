@@ -29,8 +29,6 @@ This task can be done in many ways, here are the first three that come to my min
   SELECT count(1) from comments where post_id = ?
   ```
 
-
-
 2. **Using a `JOIN`**
   ```sql
   SELECT
