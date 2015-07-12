@@ -59,19 +59,21 @@ For that purpose, let’s use `EXPLAIN ANALYZE` on both of them. We will use the
 Let’s first analyze the `JOIN` strategy:
 
 
-    # explain analyze select p.id, count(c.id) from posts p left outer join comments n on p.id = n.post_id group by 1; — no limit yet
-    QUERY PLAN
-    ——————————
-     HashAggregate  (cost=1768.05..1773.05 rows=500 width=4) (actual time=28.696..28.749 rows=500 loops=1)
-       Group Key: p.id
-       ->  Hash Right Join  (cost=14.25..1501.65 rows=53280 width=4) (actual time=0.207..18.019 rows=49901 loops=1)
-             Hash Cond: (c.post_id = p.id)
-             ->  Seq Scan on comments c  (cost=0.00..754.80 rows=53280 width=4) (actual time=0.007..4.832 rows=50000 loops=1)
-             ->  Hash  (cost=8.00..8.00 rows=500 width=4) (actual time=0.192..0.192 rows=500 loops=1)
-                   Buckets: 1024  Batches: 1  Memory Usage: 18kB
-                   ->  Seq Scan on posts p  (cost=0.00..8.00 rows=500 width=4) (actual time=0.012..0.097 rows=500 loops=1)
-     Planning time: 0.121 ms
-     Execution time: 28.825 ms
+{% highlight sql %}
+ explain analyze select p.id, count(c.id) from posts p left outer join comments n on p.id = n.post_id group by 1; — no limit yet
+UERY PLAN
+—————————
+HashAggregate  (cost=1768.05..1773.05 rows=500 width=4) (actual time=28.696..28.749 rows=500 loops=1)
+  Group Key: p.id
+  ->  Hash Right Join  (cost=14.25..1501.65 rows=53280 width=4) (actual time=0.207..18.019 rows=49901 loops=1)
+        Hash Cond: (c.post_id = p.id)
+        ->  Seq Scan on comments c  (cost=0.00..754.80 rows=53280 width=4) (actual time=0.007..4.832 rows=50000 loops=1)
+        ->  Hash  (cost=8.00..8.00 rows=500 width=4) (actual time=0.192..0.192 rows=500 loops=1)
+              Buckets: 1024  Batches: 1  Memory Usage: 18kB
+              ->  Seq Scan on posts p  (cost=0.00..8.00 rows=500 width=4) (actual time=0.012..0.097 rows=500 loops=1)
+Planning time: 0.121 ms
+Execution time: 28.825 ms
+{% endhighlight %}
 
 The plan for that query is pretty straightforward:
 
@@ -85,10 +87,12 @@ This solution is pretty straightforward but having to use (and write) a combinat
 
 ORMs don’t particularly make this easy on developers. As an example, let’s take a look at `Ruby on Rails`’s `Active Record`’s DSL (*Domain Specific Language*):
 
-    Post.
-      joins(“left outer join comments on posts.id = comments.post_id”).
-      select(“posts.id, count(1) comments_count”).
-      group_by(“1”)
+{% highlight ruby %}
+Post.
+  joins(“left outer join comments on posts.id = comments.post_id”).
+  select(“posts.id, count(1) comments_count”).
+  group_by(“1”)
+{% endhighlight %}
 
 Some people will probably want to switch to using raw SQL (with `ActiveRecord::Base.connection#execute`) but this limitation is inherent to using an ORM.
 
@@ -96,15 +100,17 @@ Some people will probably want to switch to using raw SQL (with `ActiveRecord::B
 
 Now onto the subquery. The solution looks seducing at first sight: a query nested within another: no grouping, no joining, just a simple `WHERE` clause from the parent plan (not sure about the wording here).
 
-    # explain analyze select p.id, (select count(1) from comments c where c.post_id = p.id) from posts p;
-     Seq Scan on posts p  (cost=0.00..444345.50 rows=500 width=4) (actual time=5.110..1906.266 rows=500 loops=1)
-       SubPlan 1
-         ->  Aggregate  (cost=888.66..888.67 rows=1 width=0) (actual time=3.810..3.810 rows=1 loops=500)
-               ->  Seq Scan on comments c  (cost=0.00..888.00 rows=266 width=0) (actual time=0.029..3.793 rows=100 loops=500)
-                     Filter: (post_id = p.id)
-                     Rows Removed by Filter: 49900
-     Planning time: 0.100 ms
-     Execution time: 1906.397 ms
+{% highlight sql %}
+# explain analyze select p.id, (select count(1) from comments c where c.post_id = p.id) from posts p;
+ Seq Scan on posts p  (cost=0.00..444345.50 rows=500 width=4) (actual time=5.110..1906.266 rows=500 loops=1)
+   SubPlan 1
+     ->  Aggregate  (cost=888.66..888.67 rows=1 width=0) (actual time=3.810..3.810 rows=1 loops=500)
+           ->  Seq Scan on comments c  (cost=0.00..888.00 rows=266 width=0) (actual time=0.029..3.793 rows=100 loops=500)
+                 Filter: (post_id = p.id)
+                 Rows Removed by Filter: 49900
+ Planning time: 0.100 ms
+ Execution time: 1906.397 ms
+{% endhighlight %}
 
 Before even trying to decipher the plan, let’s compare our `Execution time`: **1,906 ms** vs **28 ms**. It’s a **6,600%** increase…
 
@@ -126,25 +132,29 @@ Using `ActiveRecord` will require developers to write some SQL, here are two way
 
 **With nested SQL**
 
-    Post.
-      select(“id,
-              (select count(1)
-               from comments c
-               where c.post_id = posts.id) comments_count”)
+{% highlight ruby %}
+Post.
+  select(“id,
+          (select count(1)
+           from comments c
+           where c.post_id = posts.id) comments_count”)
+{% endhighlight %}
 
 **With AR’s underlying `Arel` “relation engine”**
 
-    subquery = Negotiation.
-            select(
-              Arel::Nodes::NamedFunction.new(“count”,
-              [Negotiation.arel_table[:id]])).
-            where(
-              Negotiation.
-                arel_table[:budget_id].
-                eq(Budget.arel_table[:id])).
-            to_sql # not calling #to_sql will execute the query 
-    Budget.
-      select(“id, (#{subquery})”)
+{% highlight ruby %}
+subquery = Negotiation.
+        select(
+          Arel::Nodes::NamedFunction.new(“count”,
+          [Negotiation.arel_table[:id]])).
+        where(
+          Negotiation.
+            arel_table[:budget_id].
+            eq(Budget.arel_table[:id])).
+        to_sql # not calling #to_sql will execute the query 
+Budget.
+  select(“id, (#{subquery})”)
+{% endhighlight %}
 
 Not really readable, the implicit (and hidden to the unwary) `N+1` issue of that strategy makes its inefficient and potentially harmful.
 
