@@ -19,33 +19,37 @@ This task can be done in many ways, here are the first three that come to my min
 
 1. **Using multiple queries**
 
-  1.1. Query all `Posts`
+{% highlight sql %}
+# Query all `Posts`
+SELECT * from posts
 
-    SELECT * from posts
-
-  1.2. For each `Post`, query its `Comments` count
-
-    SELECT count(1) from comments where post_id = ?
+# For each `Post`, query its `Comments` count
+SELECT count(1) from comments where post_id = ?
+{% endhighlight %}
 
 2. **Using a `JOIN`**
 
-    SELECT
-      posts.id,
-      count(1)
-    FROM posts
-      INNER JOIN comments
-        ON posts.id = comments.post_id
-    GROUP BY posts.id
+{% highlight sql %}
+SELECT
+  posts.id,
+  count(1)
+FROM posts
+  INNER JOIN comments
+    ON posts.id = comments.post_id
+GROUP BY posts.id
+{% endhighlight %}
 
 
 3. **Substitute a column for a subquery**
 
-    SELECT
-      posts.id,
-      (SELECT count(1)
-        FROM comments
-        WHERE comments.post_id = post.id) comments_counts
-    FROM posts
+{% highlight sql %}
+SELECT
+  posts.id,
+  (SELECT count(1)
+    FROM comments
+    WHERE comments.post_id = post.id) comments_counts
+FROM posts
+{% endhighlight %}
 
 While many developers now about the performance implications and issues of solution #1 (the `N+1` queries it will generate — where `N` is the number of blog posts), it isn’t obvious what would be the difference between solution 2 and 3, especially when it comes to dealing with large datasets.
 
