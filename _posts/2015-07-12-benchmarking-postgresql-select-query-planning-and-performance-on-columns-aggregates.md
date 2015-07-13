@@ -81,8 +81,8 @@ Execution time: 28.825 ms
 
 The plan for that query is pretty straightforward:
 
-1. The planner first executes a sequential scan (i.e.: reads all the records out of the `posts` table, which is the smallest table) and stores rows with the same `id` in the same bucket (each post has a unique id though, so this doesn't seem really meaningful in our case). Accessing posts later on, in memory, will be achieved in constant time<sup>[2](#constant-time)</sup>
-2. Then it will scan all the `comments`, and iteratively merge the two datasets using the pre-computed hash key (`post_id`) and the `Hash Right Join` function. At this point, a dataset of `N * M` records (`N` for the number of posts, `M` for the number of comments) could exist. However, the hash algorithm we’re using don’t require to have the whole dataset in memory and only buffers the aggregated results
+1. The planner first executes a sequential scan (i.e.: reads all the records out of the `posts` table, which is the smallest table) and stores rows with the same `id` in the same bucket (each post has a unique id though, so this doesn't seem really meaningful in our case, but this is a performance trick to avoid hashing the largest table and overusing the memory). Accessing posts later on, in memory, will be achieved in constant time<sup>[2](#constant-time)</sup>
+2. Then it will scan all the `comments`, and iteratively merge the two datasets using the pre-computed hash key (`post_id`) and the [`Hash Right Join` function][hrj]. At this point, a dataset of `N * M` records (`N` for the number of posts, `M` for the number of comments) could exist. However, the hash algorithm we’re using don’t require to have the whole dataset in memory and only buffers the aggregated results
 3. Finally, we aggregate this dataset using the `HashAggregate` function.
 
 Using `JOIN` makes use of `HashAggregate`, which is very efficient (and if both tables comes already sorted by the `id`/`post_id` columns, the planner will decide to use the `GroupAggregate` function and the query will be even more efficient).
@@ -254,3 +254,4 @@ Also, the planner can decide to build totally different plans based on the stati
 <a name="constant-time">2</a>: Complexity is *O(log<sub>1024</sub>(N*)) (`N` being the number of `posts` records) as the planner created 1024 buckets. With a table containing billions of billons (10<sup>18</sup>) of records, the complexity is *O(6)*, simplified as *O(1)*.
 
 [1]: https://github.com/franckverrot/postgresql-performance-subquery-vs-join
+[hrj]: http://git.postgresql.org/gitweb/?p=postgresql.git;a=commit;h=f4e4b3274317d9ce30de7e7e5b04dece7c4e1791
