@@ -170,8 +170,8 @@ Let’s now test the performance of those queries on the same dataset. We’ll g
 
 Applying a simple linear regression on the datasets, here are the two formulas that defines our two strategies’ performances:
 
-* subquery(time) = 3.74724 &times; x + −3.51694
-* join(time) = 0.00311 &times; x + 24.8416
+* subquery(time) = 3.74724 &times; number of records + −3.51694
+* join(time) = 0.00311 &times; number of records + 24.8416
 
 <table>
 <thead>
