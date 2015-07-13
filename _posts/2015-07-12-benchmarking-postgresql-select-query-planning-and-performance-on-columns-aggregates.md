@@ -169,6 +169,7 @@ Let’s now test the performance of those queries on the same dataset. We’ll g
 ![Plot and linear regression of the dataset](https://raw.githubusercontent.com/franckverrot/franckverrot.github.io/master/images/postgresql-performance-subquery-vs-join.png "Plot and linear regression of the dataset")
 
 Applying a simple linear regression on the datasets, here are the two formulas that defines our two strategies’ performances:
+
 * subquery(time) = 3.74724 &times; x + −3.51694
 * join(time) = 0.00311 &times; x + 24.8416
 
