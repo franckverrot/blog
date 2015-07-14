@@ -1,6 +1,8 @@
 ---
 layout: default
 ---
+<p class="rss-subscribe">subscribe <a href="{{ "/feed.xml" | prepend: site.baseurl }}">via RSS</a></p>
+
 <div class="post">
 
   <header class="post-header">
@@ -12,7 +14,6 @@ layout: default
     {{ content }}
   </article>
   
-  <p class="rss-subscribe">subscribe <a href="{{ "/feed.xml" | prepend: site.baseurl }}">via RSS</a></p>
 </div>
 <div id="disqus_thread"></div>
 <script type="text/javascript">
