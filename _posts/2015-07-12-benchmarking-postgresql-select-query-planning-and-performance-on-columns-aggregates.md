@@ -34,7 +34,7 @@ SELECT
   posts.id,
   count(1)
 FROM posts
-  INNER JOIN comments
+  LEFT OUTER JOIN comments
     ON posts.id = comments.post_id
 GROUP BY posts.id
 {% endhighlight %}
