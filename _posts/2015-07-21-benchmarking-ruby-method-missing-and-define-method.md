@@ -57,7 +57,7 @@ situation but without data, it's just guess work. So let's measure!
 For those new to `method_missing`, its usage is simple: define some behavior by
 parsing the parameters it's being given, and decide what do to.
 
-{* highlight ruby *}
+{% highlight ruby %}
 class Foo
   def method_missing(method_name, *arguments, &block)
     # do something with the parameters
@@ -67,7 +67,7 @@ end
 
 foo = Foo.new
 foo.do_something # => this will print the message defined above
-{* endhighlight *}
+{% endhighlight %}
 
 Other methods and objects can even ask beforehand the receiving object if it
 supports that method call using `respond_to_missing?` but this method won't be
@@ -78,20 +78,20 @@ covered here.
 `define_method` on another hand is equivalent to defining a method in the body
 definition of a class:
 
-{* highlight ruby *}
+{% highlight ruby %}
 class Foo
   def bar; end
 end
-{* endhighlight *}
+{% endhighlight %}
 
 is exactly equivalent to writing
 
-{* highlight ruby *}
+{% highlight ruby %}
 class Foo
   define_method :bar do
   end
 end
-{* endhighlight *}
+{% endhighlight %}
 
 (Just like `Foo = Class.new do...end` is equivalent to `class Foo; end`
 
@@ -107,7 +107,7 @@ should build our test infrastructure.
 
 Here's the code replicating the “cascading `method_missing`s” case:
 
-{* highlight ruby *}
+{% highlight ruby %}
 module Converted
   def method_missing(method_sym, *arguments, &block)
     if method_sym.to_s =~ /^(.+)_converted$/
@@ -134,7 +134,7 @@ class MethodMissed
 
   def some_attribute; 42; end
 end
-{* endhighlight *}
+{% endhighlight %}
 
 Pretty scary... I know.
 
@@ -142,7 +142,7 @@ Pretty scary... I know.
 
 Now onto the alternative implementation using `define_method`
 
-{* highlight ruby *}
+{% highlight ruby %}
 module DefineMethod
   %i(some_attribute).each do |meth|
     converted = define_method :"#{meth}_converted" do
@@ -160,7 +160,7 @@ class MethodDefined
 
   def some_attribute; 42; end
 end
-{* endhighlight *}
+{% endhighlight %}
 
 Now only it is more concise, but it also makes the intent clearer: we are
 defining custom methods, and we know which ones.
@@ -169,7 +169,7 @@ defining custom methods, and we know which ones.
 
 So now let's define a range of number of method calls, and run our benchmarks!
 
-{* highlight ruby *}
+{% highlight ruby %}
 Benchmark.bm(7) do |x|
   [10, 100, 1_000, 10_000, 100_000, 1_000_000].each do |n|
     val = sprintf("%6d", n)
@@ -181,7 +181,7 @@ Benchmark.bm(7) do |x|
     end
   end
 end
-{* endhighlight *}
+{% endhighlight %}
 
 (The full benchmark can be found under my [GitHub profile][gh])
 
