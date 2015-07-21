@@ -172,12 +172,20 @@ So now let's define a range of number of method calls, and run our benchmarks!
 {% highlight ruby %}
 Benchmark.bm(7) do |x|
   [10, 100, 1_000, 10_000, 100_000, 1_000_000].each do |n|
-    val = sprintf("%6d", n)
-    x.report("#{val} method missing:") do
+    val = sprintf("%7d", n)
+    x.report("#{val} method_missing - new object     ") do
       n.times { MethodMissed.new.some_attribute_converted_value }
     end
-    x.report("#{val} method defined:") do
+    x.report("#{val} define_method  - new object     ") do
       n.times { MethodDefined.new.some_attribute_converted_value }
+    end
+    x.report("#{val} method_missing - existing object") do
+      obj = MethodMissed.new
+      n.times { obj.some_attribute_converted_value }
+    end
+    x.report("#{val} define_method  - existing object") do
+      obj = MethodDefined.new
+      n.times { obj.some_attribute_converted_value }
     end
   end
 end
