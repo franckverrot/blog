@@ -229,7 +229,7 @@ Both methods seem linear, let's see some graph.
 
 ## Plotting the results
 
-...
+![Plotting the results](https://raw.githubusercontent.com/franckverrot/franckverrot.github.io/master/images/perf-ruby-method-missing-vs-define-method.png "Plotting the results")
 
 # Conclusion
 
