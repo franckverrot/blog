@@ -7,47 +7,39 @@ permalink: /portfolio/
 
 ## Startups
 
-<ul>
-  <li>Bootstrapped [evome] (2011-2013), an agile agency specialized in Ruby and JavaScript/CoffeeScript</li>
-  <li>First employee at <a href="https://shazino.com">shazino</a> (2011-2013), a lean startup building products for biotechs</li>
-  <li>Lead Architect/Developer at <a href="http://www.leadformance.com">Leadformance</a> (2010-2011), a startup building a dealer/PoS locator (now Yellow Pages/Solocal)</li>
-</ul>
+* Bootstrapped [evome] (2011-2013), an agile agency specialized in Ruby and JavaScript/CoffeeScript
+* First employee at <a href="https://shazino.com">shazino</a> (2011-2013), a lean startup building products for biotechs
+* Lead Architect/Developer at <a href="http://www.leadformance.com">Leadformance</a> (2010-2011), a startup building a dealer/PoS locator (now Yellow Pages/Solocal)
 
 ## Technologies
 
 ### Ruby
 
-* [activevalidators](https://github.com/franckverrot/activevalidators): Collection of ActiveModel/ActiveRecord validators</li>
-* [Holycorn, PostgreSQL multi-purpose Ruby data wrapper](https://github.com/franckverrot/holycorn)</li>
-* no_querying_views: no database access throughout your views</li>
-* [clamav-client](https://github.com/franckverrot/clamav-client): a ClamAV client, in Ruby</li>
-* [rb_import](https://github.com/franckverrot/rb_import)</li>
-* [raft-ruby](https://github.com/franckverrot/raft-ruby)</li>
+* [activevalidators](https://github.com/franckverrot/activevalidators): Collection of ActiveModel/ActiveRecord validators
+* [Holycorn, PostgreSQL multi-purpose Ruby data wrapper](https://github.com/franckverrot/holycorn)
+* no_querying_views: no database access throughout your views
+* [clamav-client](https://github.com/franckverrot/clamav-client): a ClamAV client, in Ruby
+* [rb_import](https://github.com/franckverrot/rb_import)
+* [raft-ruby](https://github.com/franckverrot/raft-ruby)
 
 ### Rust
 
-<ul>
-  <li>chrust</li>
-  <li>ers</li>
-</ul>
+* chrust
+* ers
 
 ### PostgreSQL
 
-* [Holycorn, PostgreSQL multi-purpose Ruby data wrapper](https://github.com/franckverrot/holycorn)</li>
+* [Holycorn, PostgreSQL multi-purpose Ruby data wrapper](https://github.com/franckverrot/holycorn)
 * [git_fdw](https://github.com/franckverrot/git_fdw)
 
 ### Crypto tools
 
-<ul>
-  <li>tweetnacl (Ruby)</li>
-  <li>blake2 (Ruby)</li>
-</ul>
+* tweetnacl (Ruby)
+* blake2 (Ruby)
 
 ## Community outreach
 
-<ul>
-  <li>RuLu (Ruby Lugdunum, in Lyon): Initiating founder and ongoing organizer (2010-2013) of one of the most renown Ruby conference in France (±120 attendees)</li>
-  <li>Code Retreat Lyon: initiating founder and occasional facilitator</li>
-  <li>Occasional lecturer and mentor</li>
-  <li>Conference speaker in English and French</li>
-</ul>
+* RuLu (Ruby Lugdunum, in Lyon): Initiating founder and ongoing organizer (2010-2013) of one of the most renown Ruby conference in France (±120 attendees)
+* Code Retreat Lyon: initiating founder and occasional facilitator
+* Occasional lecturer and mentor
+* Conference speaker in English and French
