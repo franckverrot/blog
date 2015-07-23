@@ -33,10 +33,8 @@ permalink: /portfolio/
 
 ### PostgreSQL
 
-<ul>
-  <li>[Holycorn, PostgreSQL multi-purpose Ruby data wrapper](https://github.com/franckverrot/holycorn)</li>
-  <li>git_fdw</li>
-</ul>
+* [Holycorn, PostgreSQL multi-purpose Ruby data wrapper](https://github.com/franckverrot/holycorn)</li>
+* [git_fdw](https://github.com/franckverrot/git_fdw)
 
 ### Crypto tools
 
