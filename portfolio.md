@@ -18,11 +18,12 @@ permalink: /portfolio/
 ### Ruby
 
 <ul>
-  <li>activevalidators</li>
-  <li>no_querying_views</li>
-  <li>clamav-client</li>
-  <li>rb_import</li>
-  <li>raft-ruby</li>
+  <li>[activevalidators](https://github.com/franckverrot/activevalidators): Collection of ActiveModel/ActiveRecord validators </li>
+  <li>[Holycorn, PostgreSQL multi-purpose Ruby data wrapper](https://github.com/franckverrot/holycorn)</li>
+  <li>no_querying_views: no database access throughout your views</li>
+  <li>[clamav-client](https://github.com/franckverrot/clamav-client): a ClamAV client, in Ruby</li>
+  <li>[rb_import](https://github.com/franckverrot/rb_import)</li>
+  <li>[raft-ruby](https://github.com/franckverrot/raft-ruby)/li>
 </ul>
 
 ### Rust
@@ -35,6 +36,7 @@ permalink: /portfolio/
 ### PostgreSQL
 
 <ul>
+  <li>[Holycorn, PostgreSQL multi-purpose Ruby data wrapper](https://github.com/franckverrot/holycorn)</li>
   <li>git_fdw</li>
 </ul>
 
