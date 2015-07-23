@@ -1,7 +1,7 @@
 ---
 layout: post
 title: "Benchmarking Ruby's `method_missing` vs `define_method`"
-date: 2015-07-12 23:45:00
+date: 2015-07-21 23:45:00
 comments: true
 categories: ruby, performance, cruby
 ---
