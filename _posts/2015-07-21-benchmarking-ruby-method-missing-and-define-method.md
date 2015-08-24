@@ -15,7 +15,7 @@ controversed Ruby feature: `method_missing`.
 # Introduction
 
 As I was recently working on a slow part of a codebase, which started to
-degrade the overall experience of the application, I decided to go ahead
+degrade the overall experience of the rapplication, I decided to go ahead
 and conduct an investigation to understand where the problem was.
 
 The usual plan to perform that type of work is the following
@@ -241,4 +241,4 @@ an exercise to the reader to perform that investigation :-D).
 
 
 [benchmarking-pg]: http://franck.verrot.fr/blog/2015/07/12/benchmarking-postgresql-select-query-planning-and-performance-on-columns-aggregates/
-[gh]: https://github.com/franckverrrot
+[gh]: https://github.com/franckverrot
