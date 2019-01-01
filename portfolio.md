@@ -5,11 +5,13 @@ permalink: /portfolio/
 ---
 
 
-## Startups
+## Startup Experience
 
-* Bootstrapped [evome] (2011-2013), an agile agency specialized in Ruby and JavaScript/CoffeeScript
-* First employee at <a href="https://shazino.com">shazino</a> (2011-2013), a lean startup building products for biotechs
-* Lead Architect/Developer at <a href="http://www.leadformance.com">Leadformance</a> (2010-2011), a startup building a dealer/PoS locator (now Yellow Pages/Solocal)
+* Principal Engineer at <a href="https://www.omadahealth.com">Omada Health</a>, a digital health platform on a mission to inspire and empower people everywhere to live free of chronic disease
+* Staff Engineer/Head of Engineering at <a href="https://www.per-angusta.com">Per Angusta</a>, building *the* CRM for Procurement
+* Bootstrapped [evome], an agile agency specialized in Ruby and JavaScript/CoffeeScript
+* First employee at <a href="https://shazino.com">shazino</a>, a lean startup building products for biotechs
+* Lead Architect/Developer at <a href="http://www.leadformance.com">Leadformance</a>, a startup building a dealer/PoS locator (now Yellow Pages/Solocal)
 
 ## Technologies
 
